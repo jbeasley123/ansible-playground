@@ -33,21 +33,28 @@ chkconfig nodejs python-pip rlwrap
 root@ip-172-31-44-99:/home/ubuntu# service httpd status
 /etc/init.d/httpd: 94: /etc/init.d/httpd: lynx: not found
 ```
-default commented config left in - makes actual configuration hard to read.
-Apache running as root not ideal, better to run as normal user.
-Allowing indexes - best practise not to allow this in case information proves useful to attackers.
-Apache logging to /opt
-Apache binary not in PATH
-777 perms on Apache directory
-Apache only set to start on rc2, no shutdown
+* Default commented config left in - makes actual configuration hard to read.
 
-Security scan revealed high threat level 'Login Cross Site Request Forgery' in the Node code.
+* Apache running as root not ideal, better to run as normal user.
 
-Timezone PST - could cause confusion on investigating issues, Ansible task to ensure this is set correctly.
+* Allowing indexes - best practise not to allow this in case information proves useful to attackers.
 
-Nodejs port available globally - assume server may not be directly available on the internet in reality.
+* Apache logging to /opt
 
-Apache compiled with security issue
+* Apache binary not in PATH
+
+* 777 perms on Apache directory
+
+* Apache only set to start on rc2, no shutdown
+
+* Security scan revealed high threat level 'Login Cross Site Request Forgery' in the Node code.
+
+* Timezone PST - could cause confusion on investigating issues, Ansible task to ensure this is set correctly.
+
+* Nodejs port available globally - assume server may not be directly available on the internet in reality.
+
+* Apache compiled with security issue
+
 ```
 root@ip-172-31-44-99:~# /opt/apache/bin/httpd -V
 ...
@@ -55,12 +62,13 @@ root@ip-172-31-44-99:~# /opt/apache/bin/httpd -V
 ...
 ```
 
-Nodejs unsupported version v0.10.37 installed via package manager but not running
-Node 5.0.0 installed and running - from well known but unsupported Chris Lea PPA added.
+* Nodejs unsupported version v0.10.37 installed via package manager but not running
+
+* Node 5.0.0 installed and running - from well known but unsupported Chris Lea PPA added.
 
 ## Actions taken to address each task ##
 
-** Due to the above issues with Apache I decided to replace with a supported version of Apache2 installed via the package manager.**
+**Due to the above issues with Apache I decided to replace with a supported version of Apache2 installed via the package manager.**
 
 * Produce some code to automate the build of a server
 Code contained within 'ansible' directory of this repo
