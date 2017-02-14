@@ -53,7 +53,7 @@ root@ip-172-31-44-99:/home/ubuntu# service httpd status
 
 * Nodejs port available globally - assume server may not be directly available on the internet in reality.
 
-* Apache compiled with security issue
+* Apache compiled with security issue:
 
 ```
 root@ip-172-31-44-99:~# /opt/apache/bin/httpd -V
