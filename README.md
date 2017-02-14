@@ -71,7 +71,8 @@ root@ip-172-31-44-99:~# /opt/apache/bin/httpd -V
 **Due to the above issues with Apache I decided to replace with a supported version of Apache2 installed via the package manager.**
 
 * Produce some code to automate the build of a server
-Code contained within 'ansible' directory of this repo
+
+**Code contained within 'ansible' directory of this repo**
 
 * Provide clear instructions for running your code
 
