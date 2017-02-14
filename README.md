@@ -1,6 +1,6 @@
 # ansible-playground
 
-Flaws with existing server setup
+Flaws with existing server setup:
 
 Operating System - Ubuntu 12.04 LTS end of life April 2017, some packages out of support already:
 
