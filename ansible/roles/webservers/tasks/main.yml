@@ -1,0 +1,8 @@
+---
+- include: set-facts.yml
+- include: install-apache2.yml
+- include: ensure-default-vhost-absent.yml
+- include: set-apache2-ports.yml
+- include: set-doc-root.yml
+- include: set-apache2-modules.yml
+- include: update-vhost.yml

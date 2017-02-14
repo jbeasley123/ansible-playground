@@ -1,0 +1,9 @@
+- stat: path=/etc/apache2/mods-enabled/proxy_http.load
+  register: proxyhttpmodule_path
+
+- name: enable proxy module
+  command: >
+    a2enmod proxy_http
+    creates=/etc/apache2/mods-enabled/proxy_load.load
+  when: proxyhttpmodule_path.stat.exists == False
+  notify: restart apache2

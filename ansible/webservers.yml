@@ -1,0 +1,9 @@
+---
+# file: webservers.yml
+- hosts: webservers
+  roles:
+    - webservers
+  become: true
+
+  post_tasks:
+   - include: ./roles/webservers/tests/test-content.yml

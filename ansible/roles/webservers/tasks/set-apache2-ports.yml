@@ -1,0 +1,9 @@
+- name: apache2 listen on port 80
+  lineinfile: dest=/etc/apache2/ports.conf line="Listen 80"
+  notify:
+    - reload apache2
+
+- name: apache2 listen on port 80
+  lineinfile: dest=/etc/apache2/ports.conf line="NameVirtualHost *:80"
+  notify:
+    - reload apache2

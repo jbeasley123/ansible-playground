@@ -1,0 +1,5 @@
+[webservers]
+ec2-34-249-24-234.eu-west-1.compute.amazonaws.com ansible_ssh_user=ubuntu
+
+[common]
+ec2-34-249-24-234.eu-west-1.compute.amazonaws.com ansible_ssh_user=ubuntu

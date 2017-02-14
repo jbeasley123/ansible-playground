@@ -1,0 +1,5 @@
+- action: uri url=http://www.leodis.ac.uk return_content=yes
+  register: webpage
+
+- fail: msg='content not as expected - investigate!'
+  when: "'University' not in webpage.content"

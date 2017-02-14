@@ -1,0 +1,57 @@
+# create vhost in test area
+- name: Apache | upload vhost to test
+  template:
+     src: ../files/vhost.tpl
+     dest: "/tmp/{{ vhost_name }}.conf"
+     mode: 0644
+     owner: root
+     group: root
+
+# set a fact so we can pass the file path to the test template
+- name: Set fact for config to test
+  set_fact:
+    apache_conf_to_test:  "/tmp/{{ vhost_name }}.conf"
+
+# create a test configuration file that links in all of the required config
+- name: Apache | test updated hosts
+  template:
+     src: config-test.conf.j2
+     dest: "/tmp/config-test.conf"
+     mode: 0644
+     owner: root
+     group: root
+     validate: 'apachectl -t -f %s'
+  ignore_errors: yes
+  register: apache_result
+
+# if the config test succeeds we can put the new vhost live
+- name: Apache | upload vhost to sites available
+  template:
+     src: ../files/vhost.tpl
+     dest: "{{ apache_vhost_available }}/{{ vhost_name }}.conf"
+     mode: 0644
+     owner: root
+     group: root
+  when:  apache_result|success
+
+- name: Apache | enable host
+  file:
+    src: "{{ apache_vhost_available }}/{{ vhost_name }}.conf"
+    dest: "{{ apache_vhost_enabled }}/{{ vhost_name }}.conf"
+    state: link
+  when:  apache_result|success
+  notify: reload apache2
+
+- name: Clear out test file
+  file:
+    path: "/tmp/{{ vhost_name }}.conf"
+    state: absent
+
+- name: Clear out test vhost file
+  file:
+    path: "/tmp/config-test.conf"
+    state: absent
+
+- name: Apache | enable host failed
+  fail: msg="Apache configuration is invalid. Please check before re-running the playbook."
+  when: apache_result|failed
