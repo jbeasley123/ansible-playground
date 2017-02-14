@@ -2,7 +2,7 @@
 
 ## Flaws with existing server setup:##
 
-Operating System - Ubuntu 12.04 LTS end of life April 2017, some packages out of support already:
+* Operating System - Ubuntu 12.04 LTS end of life April 2017, some packages out of support already:
 
 ```
 ubuntu@ip-172-31-44-99:~$ ubuntu-support-status --show-unsupported
@@ -21,11 +21,14 @@ Unsupported:
 chkconfig nodejs python-pip rlwrap
 ```
 
-No SSL configured - potentially handled upstream.
-NTP not configured.
-Apache not installed via package manager - manually uploaded, meaning won't be updated by OS patching
+* No SSL configured - potentially handled upstream.
 
-Apache init script broken:
+* NTP not configured.
+
+* Apache not installed via package manager - manually uploaded, meaning won't be updated by OS patching
+
+* Apache init script broken:
+
 ```
 root@ip-172-31-44-99:/home/ubuntu# service httpd status
 /etc/init.d/httpd: 94: /etc/init.d/httpd: lynx: not found
@@ -57,13 +60,15 @@ Node 5.0.0 installed and running - from well known but unsupported Chris Lea PPA
 
 ## Actions taken to address each task ##
 
-Due to the above issues with Apache I decided to replace with a supported version of Apache2 installed via the package manager.
+** Due to the above issues with Apache I decided to replace with a supported version of Apache2 installed via the package manager.**
 
 * Produce some code to automate the build of a server
 Code contained within 'ansible' directory of this repo
 
 * Provide clear instructions for running your code
-The following assumes Docker installed
+
+**The following assumes Docker installed**
+
 ```
 # docker build -t ansible .
 # docker run -it ansible bash
@@ -72,17 +77,32 @@ Within container run Ansible Playbook
 ```
 # ansible-playbook /etc/ansible/site.yml
 ```
+
 * State clearly any assumptions made (either in code comments or as a separate README
 file)
+
+**Code commented**
+
 * Use source control
 
+**Used this Github repo**
+
 * You may use any configuration management frameworks/tools as you see fit
-Ansible selected
+
+**Ansible selected**
+
 * The code must be idempotent
-The changes that materially affect the server are all idempotent, in order to test whether the uploaded vhost config is valid each time, currently that uploads and then removes the files each time, therefore showing as 4 'changed' items in the Playbook output. With more time I would compare the existing config with the file from source control before uploading anything to ensure Ansible only reflected changes when they had actually gone ahead.
+
+**The changes that materially affect the server are all idempotent, in order to test whether the uploaded vhost config is valid each time, currently that uploads and then removes the files each time, therefore showing as 4 'changed' items in the Playbook output. With more time I would compare the existing config with the file from source control before uploading anything to ensure Ansible only reflected changes when they had actually gone ahead.**
+
 * The code must check for and report errors
-Tested each element and does report errors correctly when the new Apache vhost config is invalid.
+
+**Tested each element and does report errors correctly when the new Apache vhost config is invalid.**
+
 * The code should meet the requirements and be able to support future extension
-Future changes to the config elements placed under Ansible control should be straight forward (changing ports, modules or vhost)
+
+**Future changes to the config elements placed under Ansible control should be straight forward (changing ports, modules or vhost)**
+
 * Consider how you might test that your changes haven’t affected functionality
-Content is checked to ensure the word 'University' is present.
+
+**Content is checked to ensure the word 'University' is present.**
